@@ -26,14 +26,64 @@ for line in fh.readlines():
     assert (pc not in program)
     program[pc] = (opcode, args, instruction_length)
 
-# Make the last instruction point to a negative pc.
-program[pc] = (opcode, args, -2 * pc)
+    # If it's a retq point it to a negative pc.
+    if (opcode == "retq"):
+      program[pc] = (opcode, args, -2 * pc)
+
+# Utility functions
+# Pretty-print path
+def pretty_print_path(path):
+  for instruction_node in path:
+    print instruction_node[0], instruction_node[1]
+  print "\nLENGTH:", len(path), "\n";
+
+# Prepend an instruction_node to a path
+def prepend_instruction_node_to_path(instruction_node, path):
+  return [instruction_node] + path
+
+# Prepend an instruction_node to a list of paths
+def prepend_instruction_node_to_paths(instruction_node, paths):
+  ret = []
+  for path in paths:
+    ret.append(prepend_instruction_node_to_path(instruction_node, path))
+  return ret
+
+# Recursively explore paths starting from current_pc
+def explore_paths(current_pc):
+
+  # Get current instruction_node
+  instruction_node = program[current_pc]
+
+  # Get opcode
+  opcode = program[current_pc][0]
+
+  # Get default_target
+  default_target = current_pc + program[current_pc][2]
+
+  # Regex to determine conditional branches
+  conditional_jumps = re.compile('j[a-z]+');
+
+  # If it's an unconditional branch
+  if (opcode == "jmp"):
+    branch_target = int(program[current_pc][1].split()[0], 16)
+    return prepend_instruction_node_to_paths(instruction_node, explore_paths(branch_target));
+
+  # If it's a conditional branch
+  elif (conditional_jumps.match(opcode)):
+    branch_target = int(program[current_pc][1].split()[0], 16)
+    return prepend_instruction_node_to_paths(instruction_node, explore_paths(default_target)) + prepend_instruction_node_to_paths(instruction_node, explore_paths(branch_target));
+
+  # If it's neither, it's sequential code
+  else :
+    if (default_target >= 0):
+      return prepend_instruction_node_to_paths(instruction_node, explore_paths(default_target))
+    else: # Reached end-of-function
+      return [[instruction_node]]
 
 # Start executing the program and building up paths
-paths = []
-print program
-assert(0 in program);
-pc = 0
-while(pc >= 0) :
-  print "Current PC: %x"%(pc)
-  pc += program[pc][2]
+start_pc = int(sys.argv[1], 16)
+assert(start_pc in program);
+paths = explore_paths(start_pc)
+
+for path in paths:
+  pretty_print_path(path)
