@@ -23,30 +23,7 @@ typedef struct {
 } dodeque_result; 
 
 //uint64_t control_law (uint64_t t) { return t + interval/sqrt(count);}
-
-dodeque_result dodeque () 
-{
-    uint64_t now=timestamp();
-    dodeque_result r = { _pdp_deq(), 0 };
-    if (r.p.size == 0 ) {
-          first_above_time = 0;
-    } else {
-          uint64_t sojourn_time = now - r.p.release_time;
-          if (sojourn_time < target || bytes() < maxpacket) {
-                // went below so we'll stay below for at least interval
-                first_above_time = 0;
-          } else {
-                if (first_above_time == 0) {
-                      // just went above from below. if we stay above
-                      // for at least interval we'll say it's ok to drop
-                      first_above_time = now + interval;
-                } else if (now >= first_above_time) {
-                      r.ok_to_drop = 1;
-                }
-          }
-    }
-    return r; 
-}
+dodeque_result dodeque ();
 
 DelayedPacket deque()
 {
@@ -90,4 +67,29 @@ DelayedPacket deque()
                    drop_next = control_law(now);
              }
              return (r.p);
+}
+
+
+dodeque_result dodeque ()
+{
+    uint64_t now=timestamp();
+    dodeque_result r = { _pdp_deq(), 0 };
+    if (r.p.size == 0 ) {
+          first_above_time = 0;
+    } else {
+          uint64_t sojourn_time = now - r.p.release_time;
+          if (sojourn_time < target || bytes() < maxpacket) {
+                // went below so we'll stay below for at least interval
+                first_above_time = 0;
+          } else {
+                if (first_above_time == 0) {
+                      // just went above from below. if we stay above
+                      // for at least interval we'll say it's ok to drop
+                      first_above_time = now + interval;
+                } else if (now >= first_above_time) {
+                      r.ok_to_drop = 1;
+                }
+          }
+    }
+    return r; 
 }
