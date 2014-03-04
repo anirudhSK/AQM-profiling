@@ -7,7 +7,7 @@ fh=sys.stdin
 
 # Compile RE for objdump listing
 import re
-dump_matcher = re.compile('\s*(?P<pc>[0-9a-f]+):\s*(?P<instruction>([0-9a-f]{2}\s)+)\s*(?P<opcode>[a-z]+)\s*(?P<arguments>.+)');
+dump_matcher = re.compile('\s*(?P<pc>[0-9a-f]+):\s*(?P<instruction>([0-9a-f]{2}\s)+)\s*(?P<opcode>[0-9a-z]+)\s*(?P<arguments>.+)');
 
 # dictionary to represent program
 program = dict()
