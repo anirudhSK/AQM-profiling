@@ -1,0 +1,49 @@
+mov %rsp,%rbp
+mov %rdi,-0x38(%rbp)
+mov $0x0,%eax
+callq 16 <dodeque+0x16>	12: R_X86_64_PC32	timestamp-0x4
+cltq  
+mov %rax,-0x30(%rbp)
+movq $0x0,-0x20(%rbp)
+movq $0x0,-0x18(%rbp)
+movq $0x0,-0x10(%rbp)
+mov $0x0,%eax
+callq 3e <dodeque+0x3e>	3a: R_X86_64_PC32	_pdp_deq-0x4
+cltq  
+mov %rax,-0x20(%rbp)
+mov -0x18(%rbp),%eax
+test %eax,%eax
+jne 58 <dodeque+0x58>
+mov -0x20(%rbp),%rax
+mov -0x30(%rbp),%rdx
+mov %rdx,%rcx
+sub %rax,%rcx
+mov %rcx,%rax
+mov %rax,-0x28(%rbp)
+mov 0x0(%rip),%rax        # 74 <dodeque+0x74>	70: R_X86_64_PC32	target-0x4
+cmp %rax,-0x28(%rbp)
+jb 92 <dodeque+0x92>
+mov $0x0,%eax
+callq 84 <dodeque+0x84>	80: R_X86_64_PC32	bytes-0x4
+movzwl 0x0(%rip),%edx        # 8b <dodeque+0x8b>	87: R_X86_64_PC32	maxpacket-0x4
+movzwl %dx,%edx
+cmp %edx,%eax
+jge 9f <dodeque+0x9f>
+mov 0x0(%rip),%rax        # a6 <dodeque+0xa6>	a2: R_X86_64_PC32	first_above_time-0x4
+test %rax,%rax
+jne c2 <dodeque+0xc2>
+mov 0x0(%rip),%rdx        # b2 <dodeque+0xb2>	ae: R_X86_64_PC32	interval-0x4
+mov -0x30(%rbp),%rax
+add %rdx,%rax
+mov %rax,0x0(%rip)        # c0 <dodeque+0xc0>	bc: R_X86_64_PC32	first_above_time-0x4
+jmp d6 <dodeque+0xd6>
+mov -0x38(%rbp),%rax
+mov -0x20(%rbp),%rdx
+mov %rdx,(%rax)
+mov -0x18(%rbp),%rdx
+mov %rdx,0x8(%rax)
+mov -0x10(%rbp),%rdx
+mov %rdx,0x10(%rax)
+mov -0x38(%rbp),%rax
+leaveq  
+retq  

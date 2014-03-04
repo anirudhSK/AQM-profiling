@@ -1,0 +1,123 @@
+mov %rsp,%rbp
+mov $0x0,%eax
+callq 12 <deque+0x12>	e: R_X86_64_PC32	timestamp-0x4
+cltq  
+mov %rax,-0x38(%rbp)
+mov %rax,%rdi
+mov $0x0,%eax
+callq 29 <deque+0x29>	25: R_X86_64_PC32	dodeque-0x4
+mov -0x18(%rbp),%eax
+test %eax,%eax
+jne 4f <deque+0x4f>
+movl $0x0,0x0(%rip)        # 3a <deque+0x3a>	32: R_X86_64_PC32	dropping-0x8
+mov -0x20(%rbp),%rax
+mov %rax,-0x30(%rbp)
+mov -0x18(%rbp),%rax
+mov %rax,-0x28(%rbp)
+jmpq 226 <deque+0x226>
+mov 0x0(%rip),%eax        # 55 <deque+0x55>	51: R_X86_64_PC32	dropping-0x4
+test %eax,%eax
+je 129 <deque+0x129>
+mov -0x10(%rbp),%eax
+test %eax,%eax
+jne 73 <deque+0x73>
+movl $0x0,0x0(%rip)        # 6e <deque+0x6e>	66: R_X86_64_PC32	dropping-0x8
+jmpq 216 <deque+0x216>
+mov 0x0(%rip),%rax        # 7a <deque+0x7a>	76: R_X86_64_PC32	drop_next-0x4
+cmp %rax,-0x38(%rbp)
+jb 216 <deque+0x216>
+mov 0x0(%rip),%rax        # 8b <deque+0x8b>	87: R_X86_64_PC32	drop_next-0x4
+cmp %rax,-0x38(%rbp)
+jb 216 <deque+0x216>
+mov 0x0(%rip),%eax        # 9b <deque+0x9b>	97: R_X86_64_PC32	dropping-0x4
+test %eax,%eax
+je 216 <deque+0x216>
+mov -0x20(%rbp),%rdx
+mov -0x18(%rbp),%eax
+mov %rdx,%rdi
+mov %eax,%esi
+mov $0x0,%eax
+callq b9 <deque+0xb9>	b5: R_X86_64_PC32	drop-0x4
+mov 0x0(%rip),%eax        # bf <deque+0xbf>	bb: R_X86_64_PC32	count-0x4
+add $0x1,%eax
+mov %eax,0x0(%rip)        # c8 <deque+0xc8>	c4: R_X86_64_PC32	count-0x4
+mov %rax,%rdi
+mov $0x0,%eax
+callq d9 <deque+0xd9>	d5: R_X86_64_PC32	dodeque-0x4
+mov -0x60(%rbp),%rax
+mov %rax,-0x20(%rbp)
+mov -0x58(%rbp),%rax
+mov %rax,-0x18(%rbp)
+mov -0x50(%rbp),%rax
+mov %rax,-0x10(%rbp)
+mov -0x10(%rbp),%eax
+test %eax,%eax
+jne 107 <deque+0x107>
+movl $0x0,0x0(%rip)        # 102 <deque+0x102>	fa: R_X86_64_PC32	dropping-0x8
+jmpq 216 <deque+0x216>
+mov 0x0(%rip),%rax        # 10e <deque+0x10e>	10a: R_X86_64_PC32	drop_next-0x4
+mov %rax,%rdi
+mov $0x0,%eax
+callq 11b <deque+0x11b>	117: R_X86_64_PC32	control_law-0x4
+cltq  
+mov %rax,0x0(%rip)        # 124 <deque+0x124>	120: R_X86_64_PC32	drop_next-0x4
+jmpq 216 <deque+0x216>
+mov -0x10(%rbp),%eax
+test %eax,%eax
+je 216 <deque+0x216>
+mov 0x0(%rip),%rax        # 13b <deque+0x13b>	137: R_X86_64_PC32	drop_next-0x4
+mov -0x38(%rbp),%rdx
+sub %rax,%rdx
+mov 0x0(%rip),%rax        # 149 <deque+0x149>	145: R_X86_64_PC32	interval-0x4
+cmp %rax,%rdx
+jb 16c <deque+0x16c>
+mov 0x0(%rip),%rax        # 155 <deque+0x155>	151: R_X86_64_PC32	first_above_time-0x4
+mov -0x38(%rbp),%rdx
+sub %rax,%rdx
+mov 0x0(%rip),%rax        # 163 <deque+0x163>	15f: R_X86_64_PC32	interval-0x4
+cmp %rax,%rdx
+jb 216 <deque+0x216>
+mov -0x20(%rbp),%rdx
+mov -0x18(%rbp),%eax
+mov %rdx,%rdi
+mov %eax,%esi
+mov $0x0,%eax
+callq 182 <deque+0x182>	17e: R_X86_64_PC32	drop-0x4
+mov %rax,%rdi
+mov $0x0,%eax
+callq 193 <deque+0x193>	18f: R_X86_64_PC32	dodeque-0x4
+mov -0x60(%rbp),%rax
+mov %rax,-0x20(%rbp)
+mov -0x58(%rbp),%rax
+mov %rax,-0x18(%rbp)
+mov -0x50(%rbp),%rax
+mov %rax,-0x10(%rbp)
+movl $0x1,0x0(%rip)        # 1b5 <deque+0x1b5>	1ad: R_X86_64_PC32	dropping-0x8
+mov 0x0(%rip),%rax        # 1bc <deque+0x1bc>	1b8: R_X86_64_PC32	drop_next-0x4
+mov -0x38(%rbp),%rdx
+sub %rax,%rdx
+mov 0x0(%rip),%rax        # 1ca <deque+0x1ca>	1c6: R_X86_64_PC32	interval-0x4
+cmp %rax,%rdx
+jae 1f2 <deque+0x1f2>
+mov 0x0(%rip),%eax        # 1d5 <deque+0x1d5>	1d1: R_X86_64_PC32	count-0x4
+cmp $0x2,%eax
+jbe 1e5 <deque+0x1e5>
+mov 0x0(%rip),%eax        # 1e0 <deque+0x1e0>	1dc: R_X86_64_PC32	count-0x4
+sub $0x2,%eax
+jmp 1ea <deque+0x1ea>
+mov %eax,0x0(%rip)        # 1f0 <deque+0x1f0>	1ec: R_X86_64_PC32	count-0x4
+jmp 1fc <deque+0x1fc>
+mov -0x38(%rbp),%rax
+mov %rax,%rdi
+mov $0x0,%eax
+callq 20d <deque+0x20d>	209: R_X86_64_PC32	control_law-0x4
+cltq  
+mov %rax,0x0(%rip)        # 216 <deque+0x216>	212: R_X86_64_PC32	drop_next-0x4
+mov -0x20(%rbp),%rax
+mov %rax,-0x30(%rbp)
+mov -0x18(%rbp),%rax
+mov %rax,-0x28(%rbp)
+mov -0x30(%rbp),%rax
+mov -0x28(%rbp),%edx
+leaveq  
+retq  

@@ -1,0 +1,68 @@
+mov %rsp,%rbp
+mov $0x0,%eax
+callq 12 <enque+0x12>	e: R_X86_64_PC32	queue_size-0x4
+mov %eax,-0x10(%rbp)
+cmpl $0x0,-0x10(%rbp)
+jne 45 <enque+0x45>
+mov $0x0,%eax
+callq 4f <enque+0x4f>	4b: R_X86_64_PC32	function-0x4
+cvtsi 2ss %eax,%xmm0
+movss %xmm0,-0xc(%rbp)
+movss -0xc(%rbp),%xmm1
+cvtps 2pd %xmm1,%xmm1
+mov 0x0(%rip),%eax        # 66 <enque+0x66>	62: R_X86_64_PC32	w-0x4
+mov $0x1,%edx
+mov %edx,%ecx
+mov %ecx,%eax
+callq 7a <enque+0x7a>	76: R_X86_64_PC32	pow-0x4
+mov 0x0(%rip),%eax        # 80 <enque+0x80>	7c: R_X86_64_PC32	avg-0x4
+cvtsi 2sd %eax,%xmm1
+mulsd %xmm1,%xmm0
+cvttsd 2si %xmm0,%eax
+mov %eax,0x0(%rip)        # 92 <enque+0x92>	8e: R_X86_64_PC32	avg-0x4
+mov 0x0(%rip),%edx        # 98 <enque+0x98>	94: R_X86_64_PC32	minth-0x4
+mov 0x0(%rip),%eax        # 9e <enque+0x9e>	9a: R_X86_64_PC32	avg-0x4
+cmp %eax,%edx
+jg 15d <enque+0x15d>
+mov 0x0(%rip),%edx        # ac <enque+0xac>	a8: R_X86_64_PC32	avg-0x4
+mov 0x0(%rip),%eax        # b2 <enque+0xb2>	ae: R_X86_64_PC32	maxth-0x4
+cmp %eax,%edx
+jg 15d <enque+0x15d>
+mov 0x0(%rip),%eax        # c0 <enque+0xc0>	bc: R_X86_64_PC32	count-0x4
+add $0x1,%eax
+mov %eax,0x0(%rip)        # c9 <enque+0xc9>	c5: R_X86_64_PC32	count-0x4
+mov 0x0(%rip),%edx        # cf <enque+0xcf>	cb: R_X86_64_PC32	avg-0x4
+mov 0x0(%rip),%eax        # d5 <enque+0xd5>	d1: R_X86_64_PC32	minth-0x4
+mov %edx,%ecx
+sub %eax,%ecx
+mov %ecx,%eax
+cvtsi 2ss %eax,%xmm0
+movss 0x0(%rip),%xmm1        # e7 <enque+0xe7>	e3: R_X86_64_PC32	maxp-0x4
+mulss %xmm1,%xmm0
+mov 0x0(%rip),%edx        # f1 <enque+0xf1>	ed: R_X86_64_PC32	maxth-0x4
+mov 0x0(%rip),%eax        # f7 <enque+0xf7>	f3: R_X86_64_PC32	minth-0x4
+mov %edx,%ecx
+sub %eax,%ecx
+mov %ecx,%eax
+cvtsi 2ss %eax,%xmm1
+divss %xmm1,%xmm0
+movss %xmm0,-0x8(%rbp)
+mov 0x0(%rip),%eax        # 110 <enque+0x110>	10c: R_X86_64_PC32	count-0x4
+cvtsi 2ss %eax,%xmm0
+mulss -0x8(%rbp),%xmm0
+movss 0x0(%rip),%xmm1        # 121 <enque+0x121>	11d: R_X86_64_PC32	.rodata+0xc
+movaps %xmm1,%xmm2
+subss %xmm0,%xmm2
+movaps %xmm2,%xmm0
+movss -0x8(%rbp),%xmm1
+movaps %xmm1,%xmm2
+divss %xmm0,%xmm2
+movaps %xmm2,%xmm0
+movss %xmm0,-0x4(%rbp)
+movss -0x4(%rbp),%xmm0
+mov $0x1,%eax
+callq 151 <enque+0x151>	14d: R_X86_64_PC32	mark-0x4
+movl $0x0,0x0(%rip)        # 15b <enque+0x15b>	153: R_X86_64_PC32	count-0x8
+jmp 192 <enque+0x192>
+leaveq  
+retq  

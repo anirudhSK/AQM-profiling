@@ -1,0 +1,198 @@
+
+codel.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <deque>:
+
+//uint64_t control_law (uint64_t t) { return t + interval/sqrt(count);}
+dodeque_result dodeque();
+
+DelayedPacket deque()
+{
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	48 83 ec 60          	sub    $0x60,%rsp
+      uint64_t now = timestamp();
+   8:	b8 00 00 00 00       	mov    $0x0,%eax
+   d:	e8 00 00 00 00       	callq  12 <deque+0x12>	e: R_X86_64_PC32	timestamp-0x4
+  12:	48 98                	cltq   
+  14:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+      dodeque_result r = dodeque();
+  18:	48 8d 45 e0          	lea    -0x20(%rbp),%rax
+  1c:	48 89 c7             	mov    %rax,%rdi
+  1f:	b8 00 00 00 00       	mov    $0x0,%eax
+  24:	e8 00 00 00 00       	callq  29 <deque+0x29>	25: R_X86_64_PC32	dodeque-0x4
+      if (r.p.size == 0 ) {
+  29:	8b 45 e8             	mov    -0x18(%rbp),%eax
+  2c:	85 c0                	test   %eax,%eax
+  2e:	75 1f                	jne    4f <deque+0x4f>
+            // an empty queue takes us out of dropping state
+            dropping = 0;
+  30:	c7 05 00 00 00 00 00 00 00 00 	movl   $0x0,0x0(%rip)        # 3a <deque+0x3a>	32: R_X86_64_PC32	dropping-0x8
+            return r.p;
+  3a:	48 8b 45 e0          	mov    -0x20(%rbp),%rax
+  3e:	48 89 45 d0          	mov    %rax,-0x30(%rbp)
+  42:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+  46:	48 89 45 d8          	mov    %rax,-0x28(%rbp)
+  4a:	e9 d7 01 00 00       	jmpq   226 <deque+0x226>
+      }
+      if (dropping) {
+  4f:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 55 <deque+0x55>	51: R_X86_64_PC32	dropping-0x4
+  55:	85 c0                	test   %eax,%eax
+  57:	0f 84 cc 00 00 00    	je     129 <deque+0x129>
+            if (! r.ok_to_drop) {
+  5d:	8b 45 f0             	mov    -0x10(%rbp),%eax
+  60:	85 c0                	test   %eax,%eax
+  62:	75 0f                	jne    73 <deque+0x73>
+                  // sojourn time below target - leave dropping state
+                  dropping = 0;
+  64:	c7 05 00 00 00 00 00 00 00 00 	movl   $0x0,0x0(%rip)        # 6e <deque+0x6e>	66: R_X86_64_PC32	dropping-0x8
+  6e:	e9 a3 01 00 00       	jmpq   216 <deque+0x216>
+            } else if (now >= drop_next) {
+  73:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 7a <deque+0x7a>	76: R_X86_64_PC32	drop_next-0x4
+  7a:	48 39 45 c8          	cmp    %rax,-0x38(%rbp)
+  7e:	0f 82 92 01 00 00    	jb     216 <deque+0x216>
+                  if (now >= drop_next && dropping) { /* Should have been while */
+  84:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 8b <deque+0x8b>	87: R_X86_64_PC32	drop_next-0x4
+  8b:	48 39 45 c8          	cmp    %rax,-0x38(%rbp)
+  8f:	0f 82 81 01 00 00    	jb     216 <deque+0x216>
+  95:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 9b <deque+0x9b>	97: R_X86_64_PC32	dropping-0x4
+  9b:	85 c0                	test   %eax,%eax
+  9d:	0f 84 73 01 00 00    	je     216 <deque+0x216>
+                        drop(r.p);
+  a3:	48 8b 55 e0          	mov    -0x20(%rbp),%rdx
+  a7:	8b 45 e8             	mov    -0x18(%rbp),%eax
+  aa:	48 89 d7             	mov    %rdx,%rdi
+  ad:	89 c6                	mov    %eax,%esi
+  af:	b8 00 00 00 00       	mov    $0x0,%eax
+  b4:	e8 00 00 00 00       	callq  b9 <deque+0xb9>	b5: R_X86_64_PC32	drop-0x4
+                        ++count;
+  b9:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # bf <deque+0xbf>	bb: R_X86_64_PC32	count-0x4
+  bf:	83 c0 01             	add    $0x1,%eax
+  c2:	89 05 00 00 00 00    	mov    %eax,0x0(%rip)        # c8 <deque+0xc8>	c4: R_X86_64_PC32	count-0x4
+                        r = dodeque();
+  c8:	48 8d 45 a0          	lea    -0x60(%rbp),%rax
+  cc:	48 89 c7             	mov    %rax,%rdi
+  cf:	b8 00 00 00 00       	mov    $0x0,%eax
+  d4:	e8 00 00 00 00       	callq  d9 <deque+0xd9>	d5: R_X86_64_PC32	dodeque-0x4
+  d9:	48 8b 45 a0          	mov    -0x60(%rbp),%rax
+  dd:	48 89 45 e0          	mov    %rax,-0x20(%rbp)
+  e1:	48 8b 45 a8          	mov    -0x58(%rbp),%rax
+  e5:	48 89 45 e8          	mov    %rax,-0x18(%rbp)
+  e9:	48 8b 45 b0          	mov    -0x50(%rbp),%rax
+  ed:	48 89 45 f0          	mov    %rax,-0x10(%rbp)
+                        if (! r.ok_to_drop)
+  f1:	8b 45 f0             	mov    -0x10(%rbp),%eax
+  f4:	85 c0                	test   %eax,%eax
+  f6:	75 0f                	jne    107 <deque+0x107>
+                              // leave dropping state
+                              dropping = 0;
+  f8:	c7 05 00 00 00 00 00 00 00 00 	movl   $0x0,0x0(%rip)        # 102 <deque+0x102>	fa: R_X86_64_PC32	dropping-0x8
+ 102:	e9 0f 01 00 00       	jmpq   216 <deque+0x216>
+                        else
+                              // schedule the next drop.
+                              drop_next = control_law(drop_next);
+ 107:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 10e <deque+0x10e>	10a: R_X86_64_PC32	drop_next-0x4
+ 10e:	48 89 c7             	mov    %rax,%rdi
+ 111:	b8 00 00 00 00       	mov    $0x0,%eax
+ 116:	e8 00 00 00 00       	callq  11b <deque+0x11b>	117: R_X86_64_PC32	control_law-0x4
+ 11b:	48 98                	cltq   
+ 11d:	48 89 05 00 00 00 00 	mov    %rax,0x0(%rip)        # 124 <deque+0x124>	120: R_X86_64_PC32	drop_next-0x4
+ 124:	e9 ed 00 00 00       	jmpq   216 <deque+0x216>
+                        /* execute exactly once on limbo queue */
+                  }
+            }
+      } else if (r.ok_to_drop &&
+ 129:	8b 45 f0             	mov    -0x10(%rbp),%eax
+ 12c:	85 c0                	test   %eax,%eax
+ 12e:	0f 84 e2 00 00 00    	je     216 <deque+0x216>
+                         ((now - drop_next < interval) ||
+ 134:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 13b <deque+0x13b>	137: R_X86_64_PC32	drop_next-0x4
+ 13b:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+ 13f:	48 29 c2             	sub    %rax,%rdx
+ 142:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 149 <deque+0x149>	145: R_X86_64_PC32	interval-0x4
+                              // schedule the next drop.
+                              drop_next = control_law(drop_next);
+                        /* execute exactly once on limbo queue */
+                  }
+            }
+      } else if (r.ok_to_drop &&
+ 149:	48 39 c2             	cmp    %rax,%rdx
+ 14c:	72 1e                	jb     16c <deque+0x16c>
+                         ((now - drop_next < interval) ||
+                          (now - first_above_time >= interval))) {
+ 14e:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 155 <deque+0x155>	151: R_X86_64_PC32	first_above_time-0x4
+ 155:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+ 159:	48 29 c2             	sub    %rax,%rdx
+ 15c:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 163 <deque+0x163>	15f: R_X86_64_PC32	interval-0x4
+                              drop_next = control_law(drop_next);
+                        /* execute exactly once on limbo queue */
+                  }
+            }
+      } else if (r.ok_to_drop &&
+                         ((now - drop_next < interval) ||
+ 163:	48 39 c2             	cmp    %rax,%rdx
+ 166:	0f 82 aa 00 00 00    	jb     216 <deque+0x216>
+                          (now - first_above_time >= interval))) {
+                   drop(r.p);
+ 16c:	48 8b 55 e0          	mov    -0x20(%rbp),%rdx
+ 170:	8b 45 e8             	mov    -0x18(%rbp),%eax
+ 173:	48 89 d7             	mov    %rdx,%rdi
+ 176:	89 c6                	mov    %eax,%esi
+ 178:	b8 00 00 00 00       	mov    $0x0,%eax
+ 17d:	e8 00 00 00 00       	callq  182 <deque+0x182>	17e: R_X86_64_PC32	drop-0x4
+                   r = dodeque();
+ 182:	48 8d 45 a0          	lea    -0x60(%rbp),%rax
+ 186:	48 89 c7             	mov    %rax,%rdi
+ 189:	b8 00 00 00 00       	mov    $0x0,%eax
+ 18e:	e8 00 00 00 00       	callq  193 <deque+0x193>	18f: R_X86_64_PC32	dodeque-0x4
+ 193:	48 8b 45 a0          	mov    -0x60(%rbp),%rax
+ 197:	48 89 45 e0          	mov    %rax,-0x20(%rbp)
+ 19b:	48 8b 45 a8          	mov    -0x58(%rbp),%rax
+ 19f:	48 89 45 e8          	mov    %rax,-0x18(%rbp)
+ 1a3:	48 8b 45 b0          	mov    -0x50(%rbp),%rax
+ 1a7:	48 89 45 f0          	mov    %rax,-0x10(%rbp)
+                   dropping = 1;
+ 1ab:	c7 05 00 00 00 00 01 00 00 00 	movl   $0x1,0x0(%rip)        # 1b5 <deque+0x1b5>	1ad: R_X86_64_PC32	dropping-0x8
+                   // If we're in a drop cycle, the drop rate that controlled the queue
+                   // on the last cycle is a good starting point to control it now.
+                   if (now - drop_next < interval)
+ 1b5:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 1bc <deque+0x1bc>	1b8: R_X86_64_PC32	drop_next-0x4
+ 1bc:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+ 1c0:	48 29 c2             	sub    %rax,%rdx
+ 1c3:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 1ca <deque+0x1ca>	1c6: R_X86_64_PC32	interval-0x4
+ 1ca:	48 39 c2             	cmp    %rax,%rdx
+ 1cd:	73 23                	jae    1f2 <deque+0x1f2>
+                           count = count>2? count-2 : 1;
+ 1cf:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 1d5 <deque+0x1d5>	1d1: R_X86_64_PC32	count-0x4
+ 1d5:	83 f8 02             	cmp    $0x2,%eax
+ 1d8:	76 0b                	jbe    1e5 <deque+0x1e5>
+ 1da:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 1e0 <deque+0x1e0>	1dc: R_X86_64_PC32	count-0x4
+ 1e0:	83 e8 02             	sub    $0x2,%eax
+ 1e3:	eb 05                	jmp    1ea <deque+0x1ea>
+ 1e5:	b8 01 00 00 00       	mov    $0x1,%eax
+ 1ea:	89 05 00 00 00 00    	mov    %eax,0x0(%rip)        # 1f0 <deque+0x1f0>	1ec: R_X86_64_PC32	count-0x4
+ 1f0:	eb 0a                	jmp    1fc <deque+0x1fc>
+                   else
+                           count = 1;
+ 1f2:	c7 05 00 00 00 00 01 00 00 00 	movl   $0x1,0x0(%rip)        # 1fc <deque+0x1fc>	1f4: R_X86_64_PC32	count-0x8
+                   drop_next = control_law(now);
+ 1fc:	48 8b 45 c8          	mov    -0x38(%rbp),%rax
+ 200:	48 89 c7             	mov    %rax,%rdi
+ 203:	b8 00 00 00 00       	mov    $0x0,%eax
+ 208:	e8 00 00 00 00       	callq  20d <deque+0x20d>	209: R_X86_64_PC32	control_law-0x4
+ 20d:	48 98                	cltq   
+ 20f:	48 89 05 00 00 00 00 	mov    %rax,0x0(%rip)        # 216 <deque+0x216>	212: R_X86_64_PC32	drop_next-0x4
+             }
+             return (r.p);
+ 216:	48 8b 45 e0          	mov    -0x20(%rbp),%rax
+ 21a:	48 89 45 d0          	mov    %rax,-0x30(%rbp)
+ 21e:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+ 222:	48 89 45 d8          	mov    %rax,-0x28(%rbp)
+ 226:	48 8b 45 d0          	mov    -0x30(%rbp),%rax
+ 22a:	8b 55 d8             	mov    -0x28(%rbp),%edx
+}
+ 22d:	c9                   	leaveq 
+ 22e:	c3                   	retq   

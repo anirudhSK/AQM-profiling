@@ -1,0 +1,137 @@
+
+red.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <enque>:
+const int minth = 10;
+const int maxth = 100;
+const int w = 10;
+const float maxp = 0.9;
+ 
+void enque() {
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	48 83 ec 10          	sub    $0x10,%rsp
+  int q = queue_size();
+   8:	b8 00 00 00 00       	mov    $0x0,%eax
+   d:	e8 00 00 00 00       	callq  12 <enque+0x12>	e: R_X86_64_PC32	queue_size-0x4
+  12:	89 45 f0             	mov    %eax,-0x10(%rbp)
+  if (q == 0) {
+  15:	83 7d f0 00          	cmpl   $0x0,-0x10(%rbp)
+  19:	75 2a                	jne    45 <enque+0x45>
+    avg = (1 - w) * avg + w * q;
+  1b:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 21 <enque+0x21>	1d: R_X86_64_PC32	w-0x4
+  21:	ba 01 00 00 00       	mov    $0x1,%edx
+  26:	29 c2                	sub    %eax,%edx
+  28:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 2e <enque+0x2e>	2a: R_X86_64_PC32	avg-0x4
+  2e:	0f af d0             	imul   %eax,%edx
+  31:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 37 <enque+0x37>	33: R_X86_64_PC32	w-0x4
+  37:	0f af 45 f0          	imul   -0x10(%rbp),%eax
+  3b:	01 d0                	add    %edx,%eax
+  3d:	89 05 00 00 00 00    	mov    %eax,0x0(%rip)        # 43 <enque+0x43>	3f: R_X86_64_PC32	avg-0x4
+  43:	eb 4d                	jmp    92 <enque+0x92>
+  } else {
+    float m = function();
+  45:	b8 00 00 00 00       	mov    $0x0,%eax
+  4a:	e8 00 00 00 00       	callq  4f <enque+0x4f>	4b: R_X86_64_PC32	function-0x4
+  4f:	f3 0f 2a c0          	cvtsi2ss %eax,%xmm0
+  53:	f3 0f 11 45 f4       	movss  %xmm0,-0xc(%rbp)
+    avg = pow((1 - w), m) * avg;
+  58:	f3 0f 10 4d f4       	movss  -0xc(%rbp),%xmm1
+  5d:	0f 5a c9             	cvtps2pd %xmm1,%xmm1
+  60:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 66 <enque+0x66>	62: R_X86_64_PC32	w-0x4
+  66:	ba 01 00 00 00       	mov    $0x1,%edx
+  6b:	89 d1                	mov    %edx,%ecx
+  6d:	29 c1                	sub    %eax,%ecx
+  6f:	89 c8                	mov    %ecx,%eax
+  71:	f2 0f 2a c0          	cvtsi2sd %eax,%xmm0
+  75:	e8 00 00 00 00       	callq  7a <enque+0x7a>	76: R_X86_64_PC32	pow-0x4
+  7a:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 80 <enque+0x80>	7c: R_X86_64_PC32	avg-0x4
+  80:	f2 0f 2a c8          	cvtsi2sd %eax,%xmm1
+  84:	f2 0f 59 c1          	mulsd  %xmm1,%xmm0
+  88:	f2 0f 2c c0          	cvttsd2si %xmm0,%eax
+  8c:	89 05 00 00 00 00    	mov    %eax,0x0(%rip)        # 92 <enque+0x92>	8e: R_X86_64_PC32	avg-0x4
+  }
+  if ((minth <= avg) && (avg <= maxth)) {
+  92:	8b 15 00 00 00 00    	mov    0x0(%rip),%edx        # 98 <enque+0x98>	94: R_X86_64_PC32	minth-0x4
+  98:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 9e <enque+0x9e>	9a: R_X86_64_PC32	avg-0x4
+  9e:	39 c2                	cmp    %eax,%edx
+  a0:	0f 8f b7 00 00 00    	jg     15d <enque+0x15d>
+  a6:	8b 15 00 00 00 00    	mov    0x0(%rip),%edx        # ac <enque+0xac>	a8: R_X86_64_PC32	avg-0x4
+  ac:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # b2 <enque+0xb2>	ae: R_X86_64_PC32	maxth-0x4
+  b2:	39 c2                	cmp    %eax,%edx
+  b4:	0f 8f a3 00 00 00    	jg     15d <enque+0x15d>
+    count++;
+  ba:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # c0 <enque+0xc0>	bc: R_X86_64_PC32	count-0x4
+  c0:	83 c0 01             	add    $0x1,%eax
+  c3:	89 05 00 00 00 00    	mov    %eax,0x0(%rip)        # c9 <enque+0xc9>	c5: R_X86_64_PC32	count-0x4
+    float pb = ( maxp * (avg - minth) ) / ( maxth - minth );
+  c9:	8b 15 00 00 00 00    	mov    0x0(%rip),%edx        # cf <enque+0xcf>	cb: R_X86_64_PC32	avg-0x4
+  cf:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # d5 <enque+0xd5>	d1: R_X86_64_PC32	minth-0x4
+  d5:	89 d1                	mov    %edx,%ecx
+  d7:	29 c1                	sub    %eax,%ecx
+  d9:	89 c8                	mov    %ecx,%eax
+  db:	f3 0f 2a c0          	cvtsi2ss %eax,%xmm0
+  df:	f3 0f 10 0d 00 00 00 00 	movss  0x0(%rip),%xmm1        # e7 <enque+0xe7>	e3: R_X86_64_PC32	maxp-0x4
+  e7:	f3 0f 59 c1          	mulss  %xmm1,%xmm0
+  eb:	8b 15 00 00 00 00    	mov    0x0(%rip),%edx        # f1 <enque+0xf1>	ed: R_X86_64_PC32	maxth-0x4
+  f1:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # f7 <enque+0xf7>	f3: R_X86_64_PC32	minth-0x4
+  f7:	89 d1                	mov    %edx,%ecx
+  f9:	29 c1                	sub    %eax,%ecx
+  fb:	89 c8                	mov    %ecx,%eax
+  fd:	f3 0f 2a c8          	cvtsi2ss %eax,%xmm1
+ 101:	f3 0f 5e c1          	divss  %xmm1,%xmm0
+ 105:	f3 0f 11 45 f8       	movss  %xmm0,-0x8(%rbp)
+    float pa = pb / ( 1 - count * pb);
+ 10a:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 110 <enque+0x110>	10c: R_X86_64_PC32	count-0x4
+ 110:	f3 0f 2a c0          	cvtsi2ss %eax,%xmm0
+ 114:	f3 0f 59 45 f8       	mulss  -0x8(%rbp),%xmm0
+ 119:	f3 0f 10 0d 00 00 00 00 	movss  0x0(%rip),%xmm1        # 121 <enque+0x121>	11d: R_X86_64_PC32	.rodata+0xc
+ 121:	0f 28 d1             	movaps %xmm1,%xmm2
+ 124:	f3 0f 5c d0          	subss  %xmm0,%xmm2
+ 128:	0f 28 c2             	movaps %xmm2,%xmm0
+ 12b:	f3 0f 10 4d f8       	movss  -0x8(%rbp),%xmm1
+ 130:	0f 28 d1             	movaps %xmm1,%xmm2
+ 133:	f3 0f 5e d0          	divss  %xmm0,%xmm2
+ 137:	0f 28 c2             	movaps %xmm2,%xmm0
+ 13a:	f3 0f 11 45 fc       	movss  %xmm0,-0x4(%rbp)
+    mark(pa);
+ 13f:	f3 0f 10 45 fc       	movss  -0x4(%rbp),%xmm0
+ 144:	0f 5a c0             	cvtps2pd %xmm0,%xmm0
+ 147:	b8 01 00 00 00       	mov    $0x1,%eax
+ 14c:	e8 00 00 00 00       	callq  151 <enque+0x151>	14d: R_X86_64_PC32	mark-0x4
+    count = 0;
+ 151:	c7 05 00 00 00 00 00 00 00 00 	movl   $0x0,0x0(%rip)        # 15b <enque+0x15b>	153: R_X86_64_PC32	count-0x8
+    avg = (1 - w) * avg + w * q;
+  } else {
+    float m = function();
+    avg = pow((1 - w), m) * avg;
+  }
+  if ((minth <= avg) && (avg <= maxth)) {
+ 15b:	eb 35                	jmp    192 <enque+0x192>
+    count++;
+    float pb = ( maxp * (avg - minth) ) / ( maxth - minth );
+    float pa = pb / ( 1 - count * pb);
+    mark(pa);
+    count = 0;
+  } else if (maxth <= avg) {
+ 15d:	8b 15 00 00 00 00    	mov    0x0(%rip),%edx        # 163 <enque+0x163>	15f: R_X86_64_PC32	maxth-0x4
+ 163:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # 169 <enque+0x169>	165: R_X86_64_PC32	avg-0x4
+ 169:	39 c2                	cmp    %eax,%edx
+ 16b:	7f 1b                	jg     188 <enque+0x188>
+    mark(1);
+ 16d:	bf 01 00 00 00       	mov    $0x1,%edi
+ 172:	b8 00 00 00 00       	mov    $0x0,%eax
+ 177:	e8 00 00 00 00       	callq  17c <enque+0x17c>	178: R_X86_64_PC32	mark-0x4
+    count = 0;
+ 17c:	c7 05 00 00 00 00 00 00 00 00 	movl   $0x0,0x0(%rip)        # 186 <enque+0x186>	17e: R_X86_64_PC32	count-0x8
+ 186:	eb 0a                	jmp    192 <enque+0x192>
+  } else {
+    count = -1;
+ 188:	c7 05 00 00 00 00 ff ff ff ff 	movl   $0xffffffff,0x0(%rip)        # 192 <enque+0x192>	18a: R_X86_64_PC32	count-0x8
+  }
+}
+ 192:	c9                   	leaveq 
+ 193:	c3                   	retq   
