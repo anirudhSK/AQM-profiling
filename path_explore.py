@@ -35,7 +35,7 @@ for line in fh.readlines():
 def pretty_print_path(path):
   for instruction_node in path:
     print instruction_node[0], instruction_node[1]
-  print "\nLENGTH:", len(path), "\n";
+  #print "\nLENGTH:", len(path), "\n";
 
 # Prepend an instruction_node to a path
 def prepend_instruction_node_to_path(instruction_node, path):
@@ -85,5 +85,14 @@ start_pc = int(sys.argv[1], 16)
 assert(start_pc in program);
 paths = explore_paths(start_pc)
 
+#for path in paths:
+#  pretty_print_path(path)
+
+max_length = 0
+argmax = []
 for path in paths:
-  pretty_print_path(path)
+   if (len(path) > max_length):
+     max_length = len(path)
+     argmax = path
+
+pretty_print_path(argmax)
